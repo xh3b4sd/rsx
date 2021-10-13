@@ -6,6 +6,7 @@ import (
 	"github.com/xh3b4sd/tracer"
 
 	"github.com/xh3b4sd/rsx/cmd/completion"
+	"github.com/xh3b4sd/rsx/cmd/simulation"
 	"github.com/xh3b4sd/rsx/cmd/version"
 	"github.com/xh3b4sd/rsx/pkg/project"
 )
@@ -34,6 +35,18 @@ func New(config Config) (*cobra.Command, error) {
 		}
 
 		completionCmd, err = completion.New(c)
+		if err != nil {
+			return nil, tracer.Mask(err)
+		}
+	}
+
+	var simulationCmd *cobra.Command
+	{
+		c := simulation.Config{
+			Logger: config.Logger,
+		}
+
+		simulationCmd, err = simulation.New(c)
 		if err != nil {
 			return nil, tracer.Mask(err)
 		}
@@ -71,6 +84,7 @@ func New(config Config) (*cobra.Command, error) {
 		}
 
 		c.AddCommand(completionCmd)
+		c.AddCommand(simulationCmd)
 		c.AddCommand(versionCmd)
 	}
 
