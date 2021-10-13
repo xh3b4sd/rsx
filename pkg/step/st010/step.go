@@ -1,8 +1,9 @@
 package st010
 
 import (
-	"github.com/xh3b4sd/rsx/pkg/context"
 	"github.com/xh3b4sd/tracer"
+
+	"github.com/xh3b4sd/rsx/pkg/context"
 )
 
 type Step struct {
