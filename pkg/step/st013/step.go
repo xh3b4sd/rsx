@@ -1,4 +1,4 @@
-package st008
+package st013
 
 import (
 	"github.com/xh3b4sd/tracer"
@@ -21,13 +21,11 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// ensure <Value> RSX circulating supply
+// ensure RSX price of <Value> DAI
 func (s Step) Run(ctx context.Context) (context.Context, error) {
 	var val float64
 	{
-		val += ctx.Pool.RSXDAI.RSX.Amount
-		val += ctx.Pool.RSXOHM.RSX.Amount
-
+		val = ctx.Pool.RSXPrice()
 		val = round.Round(val, 2)
 	}
 

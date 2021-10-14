@@ -4,34 +4,28 @@ import (
 	"github.com/xh3b4sd/tracer"
 
 	"github.com/xh3b4sd/rsx/pkg/context"
+	"github.com/xh3b4sd/rsx/pkg/round"
 )
 
 type Step struct {
 	Comment string
-	Value   bool
+	Index   uint
+	Value   float64
 }
 
 func (s Step) Com() string {
 	return s.Comment
 }
 
-// ensure all circulating RSX is backed
+func (s Step) Ind() int {
+	return int(s.Index)
+}
+
+// ensure <Value> RSX market cap
 func (s Step) Run(ctx context.Context) (context.Context, error) {
 	var pri float64
 	{
-		var c float64
-
-		if ctx.Pool.RSXDAI.RSX.Price != 0 {
-			c++
-			pri += ctx.Pool.RSXDAI.RSX.Price
-		}
-
-		if ctx.Pool.RSXOHM.RSX.Price != 0 {
-			c++
-			pri += ctx.Pool.RSXOHM.RSX.Price
-		}
-
-		pri /= c
+		pri = ctx.Pool.RSXPrice()
 	}
 
 	var amo float64
@@ -43,10 +37,11 @@ func (s Step) Run(ctx context.Context) (context.Context, error) {
 	var val float64
 	{
 		val = amo * pri
+		val = round.Round(val, 2)
 	}
 
-	if val != ctx.Treasury.DAI.Value {
-		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", ctx.Treasury.DAI.Value, val)
+	if val != s.Value {
+		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, val)
 	}
 
 	return ctx, nil

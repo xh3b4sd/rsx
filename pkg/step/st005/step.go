@@ -8,11 +8,16 @@ import (
 
 type Step struct {
 	Comment string
+	Index   uint
 	Value   float64
 }
 
 func (s Step) Com() string {
 	return s.Comment
+}
+
+func (s Step) Ind() int {
+	return int(s.Index)
 }
 
 // add <Value> RSX / DAI liquidity to pool

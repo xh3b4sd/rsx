@@ -4,11 +4,16 @@ import "github.com/xh3b4sd/rsx/pkg/context"
 
 type Step struct {
 	Comment string
+	Index   uint
 	Value   float64
 }
 
 func (s Step) Com() string {
 	return s.Comment
+}
+
+func (s Step) Ind() int {
+	return int(s.Index)
 }
 
 // set price floor to <Value>
