@@ -37,7 +37,7 @@ func (s Step) Run(ctx context.Context) (context.Context, error) {
 		ctx.Pool.RSXDAI.RSX.Price = ctx.Pool.RSXDAI.DAI.Amount / ctx.Pool.RSXDAI.RSX.Amount
 		ctx.Pool.RSXDAI.DAI.Price = 1
 
-		ctx.Pool.RSXDAI.RSX.Value = ctx.Pool.RSXDAI.RSX.Amount / ctx.Pool.RSXDAI.RSX.Price
+		ctx.Pool.RSXDAI.RSX.Value = ctx.Pool.RSXDAI.RSX.Amount * ctx.Pool.RSXDAI.RSX.Price
 		ctx.Pool.RSXDAI.DAI.Value = ctx.Pool.RSXDAI.DAI.Amount * ctx.Pool.RSXDAI.DAI.Price
 	}
 
