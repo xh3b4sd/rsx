@@ -38,9 +38,9 @@ func Run() error {
 		st006.Step{Index: 4 /*****/, Value: 4e06 /*********/, Comment: "ensure 4M seed investment"},
 
 		st007.Step{Index: 5 /*****/, Value: 4e06 /*********/, Comment: "ensure 4M protocol debt"},
-		st008.Step{Index: 6 /*****/, Value: 1e06 /*********/, Comment: "ensure 1M RSX circulating supply"},
-		st009.Step{Index: 7 /*****/, Value: 3e06 /*********/, Comment: "ensure 3M RSX total supply"},
-		st010.Step{Index: 8 /*****/, Value: 2e06 /*********/, Comment: "ensure 2M RSX market cap"},
+		st008.Step{Index: 6 /*****/, Value: 3e06 /*********/, Comment: "ensure 3M RSX circulating supply"},
+		st009.Step{Index: 7 /*****/, Value: 7e06 /*********/, Comment: "ensure 7M RSX total supply"},
+		st010.Step{Index: 8 /*****/, Value: 6e06 /*********/, Comment: "ensure 6M RSX market cap"},
 		st017.Step{Index: 9 /*****/, Value: 2e06 /*********/, Comment: "ensure 2M DAI in treasury"},
 		st011.Step{Index: 10 /****/, Value: true /*********/, Comment: "ensure all circulating RSX is backed"},
 
@@ -149,9 +149,9 @@ func Run() error {
 		st013.Step{Index: 93 /****/, Value: 2.00 /*********/, Comment: "ensure RSX price of 2.00 DAI"},
 
 		st007.Step{Index: 94 /*****/, Value: 4e06 /********/, Comment: "ensure 4M protocol debt"},
-		st008.Step{Index: 95 /*****/, Value: 1000115.68 /**/, Comment: "ensure 1.0001M RSX circulating supply"},
-		st009.Step{Index: 96 /*****/, Value: 3000115.68 /**/, Comment: "ensure 3.0001M RSX total supply"},
-		st010.Step{Index: 97 /*****/, Value: 1999768.66 /**/, Comment: "ensure 1.9997M RSX market cap"},
+		st008.Step{Index: 95 /*****/, Value: 3500115.68 /**/, Comment: "ensure 3.5M RSX circulating supply"},
+		st009.Step{Index: 96 /*****/, Value: 7500115.68 /**/, Comment: "ensure 7.5M RSX total supply"},
+		st010.Step{Index: 97 /*****/, Value: 6998612.04 /**/, Comment: "ensure 7.0M RSX market cap"},
 		st017.Step{Index: 98 /*****/, Value: 3e06 /********/, Comment: "ensure 3M DAI in treasury"},
 		st011.Step{Index: 99 /*****/, Value: true /********/, Comment: "ensure all circulating RSX is backed"},
 	}

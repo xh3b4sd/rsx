@@ -18,8 +18,8 @@ func (s Step) Ind() int {
 
 // add <Value> DAI to treasury
 func (s Step) Run(ctx context.Context) (context.Context, error) {
-	ctx.Protocol.Debt.RSX.Amount = s.Value / ctx.RSX.Price.Ceiling
-	ctx.Protocol.Debt.RSX.Price = ctx.RSX.Price.Ceiling
+	ctx.Protocol.Debt.RSX.Amount = s.Value / ctx.RSX.Price.Floor
+	ctx.Protocol.Debt.RSX.Price = ctx.RSX.Price.Floor
 	ctx.Protocol.Debt.RSX.Value = s.Value
 
 	ctx.Treasury.RSX.Amount += ctx.Protocol.Debt.RSX.Amount
