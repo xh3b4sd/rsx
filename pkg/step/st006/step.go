@@ -8,11 +8,16 @@ import (
 
 type Step struct {
 	Comment string
+	Index   uint
 	Value   float64
 }
 
 func (s Step) Com() string {
 	return s.Comment
+}
+
+func (s Step) Ind() int {
+	return int(s.Index)
 }
 
 // ensure <Value> in seed investment
@@ -21,7 +26,7 @@ func (s Step) Run(ctx context.Context) (context.Context, error) {
 	{
 		val += ctx.Pool.RSXDAI.DAI.Value
 		val += ctx.Pool.RSXOHM.OHM.Value
-		val += ctx.Treasury.DAI.Value
+		val += ctx.Treasury.DAI.Amount
 	}
 
 	if val != s.Value {

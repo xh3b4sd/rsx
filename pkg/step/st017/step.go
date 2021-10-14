@@ -1,10 +1,9 @@
-package st008
+package st017
 
 import (
 	"github.com/xh3b4sd/tracer"
 
 	"github.com/xh3b4sd/rsx/pkg/context"
-	"github.com/xh3b4sd/rsx/pkg/round"
 )
 
 type Step struct {
@@ -21,18 +20,10 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// ensure <Value> RSX circulating supply
+// ensure <Value> DAI in treasury
 func (s Step) Run(ctx context.Context) (context.Context, error) {
-	var val float64
-	{
-		val += ctx.Pool.RSXDAI.RSX.Amount
-		val += ctx.Pool.RSXOHM.RSX.Amount
-
-		val = round.Round(val, 2)
-	}
-
-	if val != s.Value {
-		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, val)
+	if ctx.Treasury.DAI.Amount != s.Value {
+		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, ctx.Treasury.DAI.Amount)
 	}
 
 	return ctx, nil
