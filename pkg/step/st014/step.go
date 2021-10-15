@@ -53,12 +53,10 @@ func (s Step) Run(ctx context.Context) (context.Context, error) {
 	var exc float64
 	{
 		exc = ctx.Treasury.DAI.Amount - deb
-	}
 
-	// Account for the delta in backing against the excess reserves and the
-	// backing itself.
-	{
 		ctx.Treasury.ExcessReserves = exc
+
+		exc = round.RoundN(exc, 4)
 	}
 
 	// Calculate the current amount of DAI backing RSX in circulation.
@@ -69,8 +67,8 @@ func (s Step) Run(ctx context.Context) (context.Context, error) {
 		cub = round.RoundP(cub, 0)
 	}
 
-	if ctx.Treasury.ExcessReserves != s.Value {
-		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, ctx.Treasury.ExcessReserves)
+	if exc != s.Value {
+		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, exc)
 	}
 	if cub != deb {
 		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", deb, cub)
