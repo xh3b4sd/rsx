@@ -11,7 +11,6 @@ import (
 	"github.com/xh3b4sd/rsx/pkg/step/st003"
 	"github.com/xh3b4sd/rsx/pkg/step/st004"
 	"github.com/xh3b4sd/rsx/pkg/step/st005"
-	"github.com/xh3b4sd/rsx/pkg/step/st007"
 	"github.com/xh3b4sd/rsx/pkg/step/st008"
 	"github.com/xh3b4sd/rsx/pkg/step/st009"
 	"github.com/xh3b4sd/rsx/pkg/step/st010"
@@ -150,11 +149,11 @@ func Run() error {
 		st012.Step{Index: 92 /****/, Value: 6000 /*********/, Comment: "buy RSX for 4k DAI from pool"},
 		st013.Step{Index: 93 /****/, Value: 2.00 /*********/, Comment: "ensure RSX price of 2.00 DAI"},
 
-		st007.Step{Index: 94 /*****/, Value: 6e06 /********/, Comment: "ensure 6M protocol debt"},
-		st008.Step{Index: 95 /*****/, Value: 15e05 /*******/, Comment: "ensure 1.5M RSX circulating supply"},
-		st009.Step{Index: 96 /*****/, Value: 45e05 /*******/, Comment: "ensure 4.5M RSX total supply"},
-		st010.Step{Index: 97 /*****/, Value: 3e06 /********/, Comment: "ensure 3M RSX market cap"},
-		st017.Step{Index: 98 /*****/, Value: 2e06 /********/, Comment: "ensure 2M DAI in treasury"},
+		st017.Step{Index: 94 /*****/, Value: 2e06 /********/, Comment: "ensure 2M DAI in treasury"},
+		st019.Step{Index: 95 /*****/, Value: 3e06 /********/, Comment: "ensure 3M protocol debt in RSX"},
+		st008.Step{Index: 96 /*****/, Value: 15e05 /*******/, Comment: "ensure 1.5M RSX circulating supply"},
+		st009.Step{Index: 97 /*****/, Value: 45e05 /*******/, Comment: "ensure 4.5M RSX total supply"},
+		st010.Step{Index: 98 /*****/, Value: 3e06 /********/, Comment: "ensure 3M RSX market cap"},
 		st011.Step{Index: 99 /*****/, Value: true /********/, Comment: "ensure all circulating RSX is backed"},
 	}
 
