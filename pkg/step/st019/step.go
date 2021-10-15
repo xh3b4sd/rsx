@@ -1,4 +1,4 @@
-package st006
+package st019
 
 import (
 	"github.com/xh3b4sd/tracer"
@@ -20,17 +20,10 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// ensure <Value> in seed investment
+// ensure <Value> protocol debt in RSX
 func (s Step) Run(ctx context.Context) (context.Context, error) {
-	var val float64
-	{
-		val += ctx.Pool.RSXDAI.DAI.Value
-		val += ctx.Pool.RSXOHM.OHM.Value
-		val += ctx.Treasury.DAI.Amount
-	}
-
-	if val != s.Value {
-		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, val)
+	if ctx.Protocol.Debt.RSX.Amount != s.Value {
+		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, ctx.Protocol.Debt.RSX.Amount)
 	}
 
 	return ctx, nil

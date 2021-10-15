@@ -62,8 +62,6 @@ type ContextProtocolDebt struct {
 
 type ContextProtocolDebtRSX struct {
 	Amount float64
-	Price  float64
-	Value  float64
 }
 
 type ContextRSX struct {

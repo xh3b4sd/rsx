@@ -26,7 +26,7 @@ func (s Step) Run(ctx context.Context) (context.Context, error) {
 	var val float64
 	{
 		val = ctx.Pool.RSXPrice()
-		val = round.Round(val, 2)
+		val = round.RoundP(val, 2)
 	}
 
 	if val != s.Value {

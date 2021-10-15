@@ -25,11 +25,9 @@ func (s Step) Ind() int {
 func (s Step) Run(ctx context.Context) (context.Context, error) {
 	var amo float64
 	{
-		amo += ctx.Pool.RSXDAI.RSX.Amount
-		amo += ctx.Pool.RSXOHM.RSX.Amount
 		amo += ctx.Treasury.RSX.Amount
 
-		amo = round.Round(amo, 2)
+		amo = round.RoundN(amo, 4)
 	}
 
 	if amo != s.Value {

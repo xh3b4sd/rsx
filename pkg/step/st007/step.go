@@ -4,6 +4,7 @@ import (
 	"github.com/xh3b4sd/tracer"
 
 	"github.com/xh3b4sd/rsx/pkg/context"
+	"github.com/xh3b4sd/rsx/pkg/round"
 )
 
 type Step struct {
@@ -22,7 +23,12 @@ func (s Step) Ind() int {
 
 // ensure <Value> protocol debt
 func (s Step) Run(ctx context.Context) (context.Context, error) {
-	val := ctx.Protocol.Debt.RSX.Value
+	var val float64
+	{
+		val = ctx.Protocol.Debt.RSX.Amount * ctx.Pool.RSXPrice()
+
+		val = round.RoundN(val, 4)
+	}
 
 	if val != s.Value {
 		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, val)

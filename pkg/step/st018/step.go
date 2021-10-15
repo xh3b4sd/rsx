@@ -1,6 +1,8 @@
-package st004
+package st018
 
-import "github.com/xh3b4sd/rsx/pkg/context"
+import (
+	"github.com/xh3b4sd/rsx/pkg/context"
+)
 
 type Step struct {
 	Comment string
@@ -16,9 +18,10 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// add <Value> DAI to treasury
+// add <Value> protocol debt in RSX
 func (s Step) Run(ctx context.Context) (context.Context, error) {
-	ctx.Treasury.DAI.Amount += s.Value
+	ctx.Protocol.Debt.RSX.Amount = s.Value
+	ctx.Treasury.RSX.Amount = s.Value
 
 	return ctx, nil
 }
