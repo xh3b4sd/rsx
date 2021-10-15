@@ -23,17 +23,15 @@ func (s Step) Ind() int {
 
 // ensure <Value> RSX total supply
 func (s Step) Run(ctx context.Context) (context.Context, error) {
-	var val float64
+	var amo float64
 	{
-		val += ctx.Pool.RSXDAI.RSX.Amount
-		val += ctx.Pool.RSXOHM.RSX.Amount
-		val += ctx.Protocol.Debt.RSX.Amount
+		amo += ctx.Treasury.RSX.Amount
 
-		val = round.Round(val, 2)
+		amo = round.RoundN(amo, 4)
 	}
 
-	if val != s.Value {
-		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, val)
+	if amo != s.Value {
+		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, amo)
 	}
 
 	return ctx, nil

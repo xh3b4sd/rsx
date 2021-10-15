@@ -1,8 +1,6 @@
-package st007
+package st018
 
 import (
-	"github.com/xh3b4sd/tracer"
-
 	"github.com/xh3b4sd/rsx/pkg/context"
 )
 
@@ -20,13 +18,10 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// ensure <Value> protocol debt
+// add <Value> protocol debt in RSX
 func (s Step) Run(ctx context.Context) (context.Context, error) {
-	val := ctx.Protocol.Debt.RSX.Value
-
-	if val != s.Value {
-		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, val)
-	}
+	ctx.Protocol.Debt.RSX.Amount = s.Value
+	ctx.Treasury.RSX.Amount = s.Value
 
 	return ctx, nil
 }

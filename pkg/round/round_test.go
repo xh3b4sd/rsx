@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_Round(t *testing.T) {
+func Test_RoundP(t *testing.T) {
 	testCases := []struct {
 		f float64
 		p uint
@@ -45,7 +45,61 @@ func Test_Round(t *testing.T) {
 
 	for i, tc := range testCases {
 		t.Run(strconv.Itoa(i), func(t *testing.T) {
-			r := Round(tc.f, tc.p)
+			r := RoundP(tc.f, tc.p)
+			if r != tc.r {
+				t.Fatal("expected", tc.r, "got", r)
+			}
+		})
+	}
+}
+
+func Test_RoundN(t *testing.T) {
+	testCases := []struct {
+		f float64
+		n uint
+		r float64
+	}{
+		// Case 0
+		{
+			f: 15000,
+			n: 2,
+			r: 15000,
+		},
+		// Case 1
+		{
+			f: 15000,
+			n: 3,
+			r: 15000,
+		},
+		// Case 2
+		{
+			f: 15250,
+			n: 3,
+			r: 15000,
+		},
+		// Case 3
+		{
+			f: 15750,
+			n: 3,
+			r: 16000,
+		},
+		// Case 4
+		{
+			f: 15750,
+			n: 2,
+			r: 15800,
+		},
+		// Case 5
+		{
+			f: 15750,
+			n: 4,
+			r: 20000,
+		},
+	}
+
+	for i, tc := range testCases {
+		t.Run(strconv.Itoa(i), func(t *testing.T) {
+			r := RoundN(tc.f, tc.n)
 			if r != tc.r {
 				t.Fatal("expected", tc.r, "got", r)
 			}
