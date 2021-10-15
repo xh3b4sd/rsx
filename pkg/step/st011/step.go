@@ -27,6 +27,7 @@ func (s Step) Run(ctx context.Context) (context.Context, error) {
 		pri = ctx.RSX.Price.Floor
 	}
 
+	// TODO this does not account for minted RSX
 	var amo float64
 	{
 		amo += ctx.Pool.RSXDAI.RSX.Amount

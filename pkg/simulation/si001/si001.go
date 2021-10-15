@@ -31,8 +31,8 @@ func Run() error {
 	ctx := context.Context{}
 
 	steps := []step.Interface{
-		st002.Step{Index: 0 /*****/, Value: 1.00 /*********/, Comment: "set price floor to 1 DAI"},
-		st003.Step{Index: 1 /*****/, Value: 2.00 /*********/, Comment: "set price ceiling to 2 DAI"},
+		st002.Step{Index: 0 /*****/, Value: 1.00 /*********/, Comment: "set price floor to 1.00 DAI"},
+		st003.Step{Index: 1 /*****/, Value: 2.00 /*********/, Comment: "set price ceiling to 2.00 DAI"},
 
 		st004.Step{Index: 2 /*****/, Value: 3e06 /*********/, Comment: "add 3M DAI to treasury"},
 		st017.Step{Index: 3 /*****/, Value: 3e06 /*********/, Comment: "ensure 3M DAI in treasury"},
@@ -155,6 +155,10 @@ func Run() error {
 		st009.Step{Index: 97 /*****/, Value: 45e05 /*******/, Comment: "ensure 4.5M RSX total supply"},
 		st010.Step{Index: 98 /*****/, Value: 3e06 /********/, Comment: "ensure 3M RSX market cap"},
 		st011.Step{Index: 99 /*****/, Value: true /********/, Comment: "ensure all circulating RSX is backed"},
+
+		st002.Step{Index: 100 /****/, Value: 1.30 /********/, Comment: "set price floor to 1.30 DAI"},
+		st003.Step{Index: 101 /****/, Value: 2.60 /********/, Comment: "set price ceiling to 2.60 DAI"},
+		st014.Step{Index: 102 /****/, Value: 50e03 /*******/, Comment: "ensure 50k excess reserves in treasury"},
 	}
 
 	for i, s := range steps {
@@ -165,9 +169,12 @@ func Run() error {
 		var spc string
 		{
 			if i >= 0 && i <= 9 {
-				spc = "     "
+				spc = "      "
 			}
 			if i >= 10 && i <= 99 {
+				spc = "     "
+			}
+			if i >= 100 && i <= 999 {
 				spc = "    "
 			}
 		}
