@@ -1,9 +1,8 @@
-package st008
+package st006
 
 import (
-	"github.com/xh3b4sd/tracer"
-
 	"github.com/xh3b4sd/rsx/pkg/context"
+	"github.com/xh3b4sd/rsx/pkg/round"
 )
 
 type Step struct {
@@ -20,11 +19,18 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// verify: set <Value> RSX circulating supply
+// mutate: <amount> RSX circulating supply
 func (s Step) Run(ctx context.Context) (context.Context, error) {
-	if ctx.Treasury.RSX.Supply.Circulating != s.Value {
-		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, ctx.Treasury.RSX.Supply.Circulating)
+	var amo float64
+	{
+		amo += ctx.Treasury.RSX.Amount
+
+		amo -= ctx.Protocol.Debt.RSX.Amount
+
+		amo = round.RoundN(amo, 4)
 	}
+
+	ctx.Treasury.RSX.Supply.Circulating = amo
 
 	return ctx, nil
 }
