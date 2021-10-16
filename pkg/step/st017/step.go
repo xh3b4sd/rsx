@@ -22,8 +22,8 @@ func (s Step) Ind() int {
 
 // verify: set <Value> DAI in treasury
 func (s Step) Run(ctx context.Context) (context.Context, error) {
-	if ctx.Treasury.DAI.Amount != s.Value {
-		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, ctx.Treasury.DAI.Amount)
+	if ctx.Treasury.DAI.Backing != s.Value {
+		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, ctx.Treasury.DAI.Backing)
 	}
 
 	return ctx, nil

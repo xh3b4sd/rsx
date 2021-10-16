@@ -23,11 +23,11 @@ func (s Step) Run(ctx context.Context) (context.Context, error) {
 	amo := s.Value / ctx.RSX.Price.Ceiling
 
 	{
-		ctx.Treasury.ExcessReserves += amo
-		ctx.Treasury.VolumeInflow += s.Value
+		ctx.Treasury.DAI.Excess += amo
+		ctx.Treasury.DAI.Inflow += s.Value
 
-		ctx.Treasury.DAI.Amount += s.Value
-		ctx.Treasury.RSX.Amount += amo
+		ctx.Treasury.DAI.Backing += s.Value
+		ctx.Treasury.RSX.Minted += amo
 	}
 
 	{

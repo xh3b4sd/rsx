@@ -18,7 +18,7 @@ func (s Step) Ind() int {
 
 // mutate: add <Value> DAI to treasury
 func (s Step) Run(ctx context.Context) (context.Context, error) {
-	ctx.Treasury.DAI.Amount += s.Value
+	ctx.Treasury.DAI.Backing += s.Value
 
 	return ctx, nil
 }

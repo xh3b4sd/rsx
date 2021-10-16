@@ -30,7 +30,7 @@ func (s Step) Run(ctx context.Context) (context.Context, error) {
 
 	var amo float64
 	{
-		amo += ctx.Treasury.RSX.Amount
+		amo += ctx.Treasury.RSX.Minted
 
 		amo -= ctx.Protocol.Debt.RSX.Amount
 	}
