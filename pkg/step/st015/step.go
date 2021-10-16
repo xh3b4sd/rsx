@@ -18,7 +18,7 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// arb RSX for <Value> DAI between protocol and pool
+// mutate: arb RSX for <Value> DAI between protocol and pool
 func (s Step) Run(ctx context.Context) (context.Context, error) {
 	amo := s.Value / ctx.RSX.Price.Ceiling
 

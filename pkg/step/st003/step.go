@@ -16,7 +16,7 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// set price ceiling to <Value>
+// mutate: set price ceiling to <Value> DAI
 func (s Step) Run(ctx context.Context) (context.Context, error) {
 	ctx.RSX.Price.Ceiling = s.Value
 

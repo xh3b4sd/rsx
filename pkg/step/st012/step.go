@@ -18,7 +18,7 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// buy RSX for <Value> DAI from pool
+// mutate: buy RSX for <Value> DAI from pool
 func (s Step) Run(ctx context.Context) (context.Context, error) {
 	ctx.Pool.RSXDAI.DAI.Amount += s.Value
 	ctx.Pool.RSXDAI.DAI.Price = 1

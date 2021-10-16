@@ -21,7 +21,7 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// ensure RSX price of <Value> DAI
+// verify: set RSX price of <Value> DAI
 func (s Step) Run(ctx context.Context) (context.Context, error) {
 	var val float64
 	{

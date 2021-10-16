@@ -20,7 +20,7 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// ensure <Value> protocol debt in RSX
+// verify: set <Value> protocol debt in RSX
 func (s Step) Run(ctx context.Context) (context.Context, error) {
 	if ctx.Protocol.Debt.RSX.Amount != s.Value {
 		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, ctx.Protocol.Debt.RSX.Amount)
