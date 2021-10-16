@@ -8,8 +8,14 @@ type Context struct {
 }
 
 type ContextPool struct {
+	RSX    ContextPoolRSX
 	RSXDAI ContextPoolRSXDAI
 	RSXOHM ContextPoolRSXOHM
+}
+
+type ContextPoolRSX struct {
+	MarketCap float64
+	Price     float64 // TODO move RSXPrice function here
 }
 
 type ContextPoolRSXDAI struct {
