@@ -21,7 +21,7 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// ensure <Value> excess reserves in treasury
+// verify: set <Value> excess reserves in treasury
 func (s Step) Run(ctx context.Context) (context.Context, error) {
 	// Calculate the RSX circulating supply. Note that this subtracts the
 	// protocol debt as this is meant to be locked until accounted for by future

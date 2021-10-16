@@ -18,7 +18,7 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// add <Value> protocol debt in RSX
+// mutate: add <Value> protocol debt in RSX
 func (s Step) Run(ctx context.Context) (context.Context, error) {
 	ctx.Protocol.Debt.RSX.Amount = s.Value
 	ctx.Treasury.RSX.Amount = s.Value

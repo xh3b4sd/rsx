@@ -21,7 +21,7 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// ensure <Value> RSX total supply
+// verify: set <Value> RSX total supply
 func (s Step) Run(ctx context.Context) (context.Context, error) {
 	var amo float64
 	{

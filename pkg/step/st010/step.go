@@ -21,7 +21,7 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// ensure <Value> RSX market cap
+// verify: set <Value> RSX market cap
 func (s Step) Run(ctx context.Context) (context.Context, error) {
 	var pri float64
 	{
