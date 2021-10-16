@@ -22,8 +22,8 @@ func (s Step) Ind() int {
 
 // verify: set <Value> volume inflow in treasury
 func (s Step) Run(ctx context.Context) (context.Context, error) {
-	if ctx.Treasury.VolumeInflow != s.Value {
-		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, ctx.Treasury.VolumeInflow)
+	if ctx.Treasury.DAI.Inflow != s.Value {
+		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, ctx.Treasury.DAI.Inflow)
 	}
 
 	return ctx, nil

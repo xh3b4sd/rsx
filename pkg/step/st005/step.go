@@ -35,8 +35,8 @@ func (s Step) Run(ctx context.Context) (context.Context, error) {
 	ctx.Pool.RSXDAI.ConstantK = ctx.Pool.RSXDAI.RSX.Amount * ctx.Pool.RSXDAI.DAI.Amount
 	ctx.Pool.RSXDAI.Liquidity = math.Sqrt(ctx.Pool.RSXDAI.RSX.Amount * ctx.Pool.RSXDAI.DAI.Amount)
 
-	ctx.Treasury.DAI.Amount -= val
-	ctx.Treasury.RSX.Amount += val / ctx.RSX.Price.Ceiling
+	ctx.Treasury.DAI.Backing -= val
+	ctx.Treasury.RSX.Minted += val / ctx.RSX.Price.Ceiling
 
 	return ctx, nil
 }

@@ -28,7 +28,7 @@ func (s Step) Run(ctx context.Context) (context.Context, error) {
 	// revenue.
 	var rsa float64
 	{
-		rsa += ctx.Treasury.RSX.Amount
+		rsa += ctx.Treasury.RSX.Minted
 
 		rsa -= ctx.Protocol.Debt.RSX.Amount
 	}
@@ -37,7 +37,7 @@ func (s Step) Run(ctx context.Context) (context.Context, error) {
 	// circulation.
 	var daa float64
 	{
-		daa = ctx.Treasury.DAI.Amount
+		daa = ctx.Treasury.DAI.Backing
 	}
 
 	// Calculate the desired amount of DAI backing RSX in circulation.
@@ -52,9 +52,9 @@ func (s Step) Run(ctx context.Context) (context.Context, error) {
 	// RSX backing.
 	var exc float64
 	{
-		exc = ctx.Treasury.DAI.Amount - deb
+		exc = ctx.Treasury.DAI.Backing - deb
 
-		ctx.Treasury.ExcessReserves = exc
+		ctx.Treasury.DAI.Excess = exc
 
 		exc = round.RoundN(exc, 4)
 	}
@@ -62,7 +62,7 @@ func (s Step) Run(ctx context.Context) (context.Context, error) {
 	// Calculate the current amount of DAI backing RSX in circulation.
 	var cub float64
 	{
-		cub = daa - ctx.Treasury.ExcessReserves
+		cub = daa - ctx.Treasury.DAI.Excess
 
 		cub = round.RoundP(cub, 0)
 	}
