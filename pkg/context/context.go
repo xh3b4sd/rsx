@@ -75,7 +75,8 @@ type ContextRSXprice struct {
 
 type ContextTreasury struct {
 	ExcessReserves float64
-	VolumeInflow   float64
+	// TODO make Treasury.DAI.Inflow
+	VolumeInflow float64
 
 	RSX ContextTreasuryRSX
 	DAI ContextTreasuryDAI
@@ -85,11 +86,20 @@ type ContextTreasury struct {
 // reasons. These are e.g. minting RSX at price ceiling or redeeming RSX at
 // price floor.
 type ContextTreasuryRSX struct {
+	// TODO make Treasury.RSX.Minted
 	Amount float64
+
+	Supply ContextTreasuryRSXSupply
+}
+
+type ContextTreasuryRSXSupply struct {
+	Circulating float64
+	Total       float64
 }
 
 // ContextTreasuryDAI is the DAI added to the treasury by various funding
 // mechanisms. These are e.g. seed investment or RSX purchases at price ceiling.
 type ContextTreasuryDAI struct {
+	// TODO make Treasury.DAI.Backing
 	Amount float64
 }
