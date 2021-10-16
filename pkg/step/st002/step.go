@@ -16,7 +16,7 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// mutate: set price floor to <Value> DAI
+// mutate: set <Value> DAI price floor
 func (s Step) Run(ctx context.Context) (context.Context, error) {
 	ctx.RSX.Price.Floor = s.Value
 
