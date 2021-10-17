@@ -39,7 +39,10 @@ func Run() error {
 			return tracer.Mask(err)
 		}
 
-		p.Render(io.MultiWriter(f))
+		err = p.Render(io.MultiWriter(f))
+		if err != nil {
+			return tracer.Mask(err)
+		}
 	}
 
 	{
