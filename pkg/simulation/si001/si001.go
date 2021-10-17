@@ -28,13 +28,6 @@ import (
 	"github.com/xh3b4sd/rsx/pkg/step/st020"
 )
 
-// TODO
-//
-//     1. rename verify to verify (done)
-//     2. add mutate steps to modify state without verifying it
-//     3. ensure associated mutate and verify steps are called together
-//
-
 func Run() error {
 	var err error
 

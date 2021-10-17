@@ -8,6 +8,7 @@ import (
 	"github.com/xh3b4sd/tracer"
 
 	"github.com/xh3b4sd/rsx/pkg/simulation/si001"
+	"github.com/xh3b4sd/rsx/pkg/simulation/si002"
 )
 
 type runner struct {
@@ -34,6 +35,11 @@ func (r *runner) run(ctx context.Context, cmd *cobra.Command, args []string) err
 	switch args[0] {
 	case "001":
 		err := si001.Run()
+		if err != nil {
+			return tracer.Mask(err)
+		}
+	case "002":
+		err := si002.Run()
 		if err != nil {
 			return tracer.Mask(err)
 		}
