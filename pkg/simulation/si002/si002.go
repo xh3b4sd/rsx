@@ -94,14 +94,10 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 	// multiple is the multiple to be applied to floor in order to compute the
 	// actual price floor. E.g. 2.00 means price ceiling is always 2x price
 	// floor.
+	var ceiling float64
 	var multiple float64
 	{
 		multiple = 2.00
-	}
-
-	var ceiling float64
-	{
-		ceiling = floor * multiple
 	}
 
 	// growth is the multiple at which price floor and price ceiling grow. E.g.
@@ -227,9 +223,5 @@ func backingCanIncrease(ctx context.Context, floor float64, growth float64) bool
 
 	// As long as the available capital to increase the price floor is smaller
 	// than the increase we want to achieve, we cannot increase the backing.
-	if add < gro {
-		return false
-	}
-
-	return true
+	return add >= gro
 }
