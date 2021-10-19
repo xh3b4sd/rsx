@@ -45,7 +45,7 @@ func (c *Chart) Line() *charts.Line {
 	)
 
 	l.SetXAxis(c.xAxis)
-	l.AddSeries(c.title, c.yAxis.values)
+	l.AddSeries(c.yAxis.name, c.yAxis.values)
 
 	l.SetSeriesOptions(charts.WithLineChartOpts(opts.LineChart{Smooth: true}))
 
