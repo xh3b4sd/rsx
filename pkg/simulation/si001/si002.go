@@ -156,7 +156,7 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 
 	var supply *chart.Chart
 	{
-		supply = chart.New("Total Supply", "Circulating Supply", "Total Supply")
+		supply = chart.New("Circulating Supply / Total Supply", "Circulating Supply", "Total Supply")
 		supply.MaxY(3e07)
 		supply.MinY(0)
 	}

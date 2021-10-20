@@ -64,7 +64,11 @@ func (c *Chart) Line() *charts.Line {
 	l.SetXAxis(c.xAxis.values)
 
 	for i := range c.yAxis {
-		l.AddSeries(c.yAxis[i].name, c.yAxis[i].values, charts.WithLineChartOpts(opts.LineChart{ShowSymbol: false}))
+		l.AddSeries(
+			c.yAxis[i].name,
+			c.yAxis[i].values,
+			charts.WithLineChartOpts(opts.LineChart{ShowSymbol: false}),
+		)
 	}
 
 	return l
