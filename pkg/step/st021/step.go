@@ -1,8 +1,6 @@
-package st019
+package st021
 
 import (
-	"github.com/xh3b4sd/tracer"
-
 	"github.com/xh3b4sd/rsx/pkg/context"
 )
 
@@ -20,11 +18,12 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// verify: set <Value> protocol debt in RSX
+// mutate: add <Value> DAI to DAO
 func (s Step) Run(ctx context.Context) (context.Context, error) {
-	if ctx.Protocol.RSX.Debt.Amount != s.Value {
-		return context.Context{}, tracer.Maskf(executionFailedError, "expected %f, got %f", s.Value, ctx.Protocol.RSX.Debt.Amount)
-	}
+	val := ctx.Treasury.DAI.Excess * s.Value
+
+	ctx.Treasury.DAI.Excess -= val
+	ctx.Treasury.DAI.DAO += val
 
 	return ctx, nil
 }

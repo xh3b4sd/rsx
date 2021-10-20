@@ -20,10 +20,16 @@ func (s Step) Ind() int {
 
 // mutate: arb RSX for <Value> DAI between protocol and pool
 func (s Step) Run(ctx context.Context) (context.Context, error) {
+	// We cannot apply the arb while the actual price is below the price
+	// ceiling.
+	if ctx.Pool.RSXPrice() < ctx.RSX.Price.Ceiling {
+		return ctx, nil
+	}
+
 	amo := s.Value / ctx.RSX.Price.Ceiling
 
 	{
-		ctx.Treasury.DAI.Excess += amo
+		ctx.Treasury.DAI.Excess += s.Value - amo
 		ctx.Treasury.DAI.Inflow += s.Value
 
 		ctx.Treasury.DAI.Backing += s.Value

@@ -2,7 +2,6 @@ package st006
 
 import (
 	"github.com/xh3b4sd/rsx/pkg/context"
-	"github.com/xh3b4sd/rsx/pkg/round"
 )
 
 type Step struct {
@@ -25,9 +24,7 @@ func (s Step) Run(ctx context.Context) (context.Context, error) {
 	{
 		amo += ctx.Treasury.RSX.Minted
 
-		amo -= ctx.Protocol.Debt.RSX.Amount
-
-		amo = round.RoundN(amo, 4)
+		amo -= ctx.Protocol.RSX.Debt.Amount
 	}
 
 	ctx.Treasury.RSX.Supply.Circulating = amo

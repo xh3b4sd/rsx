@@ -59,15 +59,16 @@ type ContextPoolRSXOHMOHM struct {
 }
 
 type ContextProtocol struct {
-	Debt ContextProtocolDebt
+	RSX ContextProtocolRSX
 }
 
-type ContextProtocolDebt struct {
-	RSX ContextProtocolDebtRSX
+type ContextProtocolRSX struct {
+	Debt ContextProtocolRSXDebt
 }
 
-type ContextProtocolDebtRSX struct {
+type ContextProtocolRSXDebt struct {
 	Amount float64
+	Value  float64
 }
 
 type ContextRSX struct {
@@ -102,6 +103,7 @@ type ContextTreasuryRSXSupply struct {
 // mechanisms. These are e.g. seed investment or RSX purchases at price ceiling.
 type ContextTreasuryDAI struct {
 	Backing float64
+	DAO     float64
 	Excess  float64
 	Inflow  float64
 }
