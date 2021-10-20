@@ -56,7 +56,7 @@ func (c *Chart) Line() *charts.Line {
 	l.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{Title: c.title}),
 		charts.WithTooltipOpts(opts.Tooltip{AxisPointer: &opts.AxisPointer{Type: "cross"}, Show: true, Trigger: "axis"}),
-		charts.WithLegendOpts(opts.Legend{Show: true, Top: "3"}),
+		charts.WithLegendOpts(opts.Legend{Show: true, Right: "85", Top: "3"}),
 		charts.WithXAxisOpts(opts.XAxis{Name: "Time"}),
 		charts.WithYAxisOpts(opts.YAxis{Max: c.yAxis[0].max, Min: c.yAxis[0].min, Name: "DAI"}),
 	)
@@ -64,7 +64,11 @@ func (c *Chart) Line() *charts.Line {
 	l.SetXAxis(c.xAxis.values)
 
 	for i := range c.yAxis {
-		l.AddSeries(c.yAxis[i].name, c.yAxis[i].values)
+		l.AddSeries(
+			c.yAxis[i].name,
+			c.yAxis[i].values,
+			charts.WithLineChartOpts(opts.LineChart{ShowSymbol: false}),
+		)
 	}
 
 	return l

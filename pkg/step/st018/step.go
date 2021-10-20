@@ -20,8 +20,12 @@ func (s Step) Ind() int {
 
 // mutate: add <Value> protocol debt in RSX
 func (s Step) Run(ctx context.Context) (context.Context, error) {
-	ctx.Protocol.Debt.RSX.Amount = s.Value
-	ctx.Treasury.RSX.Minted = s.Value
+	// The initial protocol debt is incured for the seed investment of
+	// bootstrapping the protocol. The debt is accounted for in RSX at a 10%
+	// discount at price ceiling.
+	ctx.Protocol.RSX.Debt.Amount = s.Value / ctx.RSX.Price.Ceiling * 1.1
+	ctx.Protocol.RSX.Debt.Value = ctx.Protocol.RSX.Debt.Amount * ctx.RSX.Price.Floor
+	ctx.Treasury.RSX.Minted = ctx.Protocol.RSX.Debt.Amount
 
 	return ctx, nil
 }
