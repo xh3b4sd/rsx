@@ -20,10 +20,14 @@ func (s Step) Ind() int {
 
 // mutate: add <Value> DAI to DAO
 func (s Step) Run(ctx context.Context) (context.Context, error) {
-	val := ctx.Treasury.DAI.Excess * s.Value
+	val := ctx.Treasury.DAI.Inflow * s.Value
 
+	ctx.Treasury.DAI.Backing -= val
 	ctx.Treasury.DAI.Excess -= val
+
 	ctx.Treasury.DAI.DAO += val
+
+	ctx.Treasury.DAI.Inflow = 0
 
 	return ctx, nil
 }
