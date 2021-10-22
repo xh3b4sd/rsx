@@ -2,6 +2,7 @@ package st020
 
 import (
 	"github.com/xh3b4sd/rsx/pkg/context"
+	"github.com/xh3b4sd/rsx/pkg/round"
 )
 
 type Step struct {
@@ -30,7 +31,7 @@ func (s Step) Run(ctx context.Context) (context.Context, error) {
 	// RSX backing.
 	var exc float64
 	{
-		exc = ctx.Treasury.DAI.Backing - des
+		exc = ctx.Treasury.DAI.Backing - round.RoundP(des, 5)
 	}
 
 	ctx.Treasury.DAI.Excess = exc

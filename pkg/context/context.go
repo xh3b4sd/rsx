@@ -1,61 +1,9 @@
 package context
 
 type Context struct {
-	Pool     ContextPool
 	Protocol ContextProtocol
 	RSX      ContextRSX
 	Treasury ContextTreasury
-}
-
-type ContextPool struct {
-	RSX    ContextPoolRSX
-	RSXDAI ContextPoolRSXDAI
-	RSXOHM ContextPoolRSXOHM
-}
-
-type ContextPoolRSX struct {
-	MarketCap float64
-	Price     float64 // TODO move RSXPrice function here
-}
-
-type ContextPoolRSXDAI struct {
-	ConstantK float64
-	Liquidity float64
-
-	RSX ContextPoolRSXDAIRSX
-	DAI ContextPoolRSXDAIDAI
-}
-
-type ContextPoolRSXDAIRSX struct {
-	Amount float64
-	Price  float64
-	Value  float64
-}
-
-type ContextPoolRSXDAIDAI struct {
-	Amount float64
-	Price  float64
-	Value  float64
-}
-
-type ContextPoolRSXOHM struct {
-	ConstantK float64
-	Liquidity float64
-
-	RSX ContextPoolRSXOHMRSX
-	OHM ContextPoolRSXOHMOHM
-}
-
-type ContextPoolRSXOHMRSX struct {
-	Amount float64
-	Price  float64
-	Value  float64
-}
-
-type ContextPoolRSXOHMOHM struct {
-	Amount float64
-	Price  float64
-	Value  float64
 }
 
 type ContextProtocol struct {
@@ -96,6 +44,7 @@ type ContextTreasuryRSX struct {
 
 type ContextTreasuryRSXSupply struct {
 	Circulating float64
+	MarketCap   float64
 	Total       float64
 }
 
