@@ -147,7 +147,7 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 	var excess *chart.Chart
 	{
 		excess = chart.New("Excess Reserves / Protocol Debt", "Excess Reserves", "Protocol Debt")
-		excess.MaxY(1e07)
+		excess.MaxY(5e06)
 		excess.MinY(0)
 	}
 
