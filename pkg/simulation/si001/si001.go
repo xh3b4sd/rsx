@@ -98,7 +98,7 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 	var deb float64
 	{
 		// TODO there are more excess reserves with more debt
-		deb = 0.02
+		deb = 0.05
 	}
 
 	var floor float64
@@ -123,7 +123,7 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 	// 0.10 means the price floor rises by 10% on each increase.
 	var growth float64
 	{
-		growth = 0.01
+		growth = 0.05
 	}
 
 	// Track the ROI based on an initial position in the price ceiling.
@@ -154,14 +154,14 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 	var price *chart.Chart
 	{
 		price = chart.New("Price Floor / Price Ceiling", "Price Floor", "Price Ceiling", "ROI Multiple")
-		price.MaxY(25)
+		price.MaxY(20)
 		price.MinY(0)
 	}
 
 	var supply *chart.Chart
 	{
 		supply = chart.New("Circulating Supply / Total Supply", "Circulating Supply", "Total Supply")
-		supply.MaxY(25e06)
+		supply.MaxY(3e07)
 		supply.MinY(0)
 	}
 
@@ -179,23 +179,13 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 		st020.Step{ /******************/ Comment: "mutate: <amount> excess reserves in treasury"},
 	})
 
-	// fmt.Printf("%#v\n", ctx.Treasury.DAI.Backing)
-	// fmt.Printf("%#v\n", ctx.Treasury.DAI.DAO)
-	// fmt.Printf("%#v\n", ctx.Treasury.DAI.Excess)
-	// fmt.Printf("%#v\n", ctx.Treasury.DAI.Inflow)
-
 	// o := sync.Once{}
 
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < 1020; i++ {
 		{
 			if floorCanIncrease(ctx, floor, growth) {
 				floor = floor * (1 + growth)
 				ceiling = floor * multiple
-
-				growth = growth * 1.1
-				if growth > 0.10 {
-					growth = 0.10
-				}
 
 				ste := []step.Interface{
 					st002.Step{Value: floor /*****/, Comment: fmt.Sprintf("mutate: set %.2f DAI price floor", floor)},
@@ -212,20 +202,13 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 
 		{
 			ste := []step.Interface{
+				st015.Step{Value: 1e05 /***/, Comment: /*********/ "mutate: add 100k DAI treasury inflow"},
+				st006.Step{ /***************/ Comment: /*********/ "mutate: <amount> RSX circulating supply"},
+				st007.Step{ /***************/ Comment: /*********/ "mutate: <amount> RSX total supply"},
+				st011.Step{ /***************/ Comment: /*********/ "mutate: <amount> RSX market cap"},
+				st020.Step{ /***************/ Comment: /*********/ "mutate: <amount> excess reserves in treasury"},
 				st021.Step{Value: dao /****/, Comment: fmt.Sprintf("mutate: add %.2f DAI to DAO", dao)},
 				st022.Step{Value: deb /****/, Comment: fmt.Sprintf("mutate: rem %.2f DAI from protocol debt", deb)},
-			}
-
-			ctx = execute(ctx, ste)
-		}
-
-		{
-			ste := []step.Interface{
-				st015.Step{Value: 1e05 /***/, Comment: "mutate: add 100k DAI treasury inflow"},
-				st006.Step{ /***************/ Comment: "mutate: <amount> RSX circulating supply"},
-				st007.Step{ /***************/ Comment: "mutate: <amount> RSX total supply"},
-				st011.Step{ /***************/ Comment: "mutate: <amount> RSX market cap"},
-				st020.Step{ /***************/ Comment: "mutate: <amount> excess reserves in treasury"},
 			}
 
 			ctx = execute(ctx, ste)
