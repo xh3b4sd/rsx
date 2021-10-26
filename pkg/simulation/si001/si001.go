@@ -7,13 +7,16 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"sync"
 
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/components"
 	"github.com/xh3b4sd/tracer"
 
+	"github.com/xh3b4sd/rsx/pkg/bond"
 	"github.com/xh3b4sd/rsx/pkg/chart"
 	"github.com/xh3b4sd/rsx/pkg/context"
+	"github.com/xh3b4sd/rsx/pkg/round"
 	"github.com/xh3b4sd/rsx/pkg/step"
 	"github.com/xh3b4sd/rsx/pkg/step/st002"
 	"github.com/xh3b4sd/rsx/pkg/step/st003"
@@ -26,7 +29,6 @@ import (
 	"github.com/xh3b4sd/rsx/pkg/step/st018"
 	"github.com/xh3b4sd/rsx/pkg/step/st020"
 	"github.com/xh3b4sd/rsx/pkg/step/st021"
-	"github.com/xh3b4sd/rsx/pkg/step/st022"
 )
 
 const (
@@ -95,11 +97,10 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 
 	// deb is the percentage of volume inflow diverted into paying back protocol
 	// debt.
-	var deb float64
-	{
-		// TODO there are more excess reserves with more debt
-		deb = 0.05
-	}
+	// var deb float64
+	// {
+	// 	deb = 0.02
+	// }
 
 	var floor float64
 	{
@@ -123,7 +124,7 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 	// 0.10 means the price floor rises by 10% on each increase.
 	var growth float64
 	{
-		growth = 0.05
+		growth = 0.20
 	}
 
 	// Track the ROI based on an initial position in the price ceiling.
@@ -140,29 +141,34 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 	var backing *chart.Chart
 	{
 		backing = chart.New("DAI Backing / Market Cap", "DAI Backing", "Market Cap", "DAO Holdings")
-		backing.MaxY(5e08)
+		backing.MaxY(6e08)
 		backing.MinY(0)
+		backing.UnitY("DAI")
+	}
+
+	var bonding *chart.Chart
+	{
+		bonding = chart.New("Bond Discounts / Bond Volume", "RSX Price", "Bond Price")
+		bonding.MaxY(6)
+		bonding.MinY(0)
+		bonding.UnitX("Volume")
+		bonding.UnitY("Price")
 	}
 
 	var excess *chart.Chart
 	{
-		excess = chart.New("Excess Reserves / Protocol Debt", "Excess Reserves", "Protocol Debt")
-		excess.MaxY(5e06)
+		excess = chart.New("Excess Reserves")
+		excess.MaxY(1e07)
 		excess.MinY(0)
+		excess.UnitY("DAI")
 	}
 
 	var price *chart.Chart
 	{
-		price = chart.New("Price Floor / Price Ceiling", "Price Floor", "Price Ceiling", "ROI Multiple")
-		price.MaxY(20)
+		price = chart.New("Price Floor / Price Ceiling", "Price Floor", "Price Ceiling", "RFV Multiple")
+		price.MaxY(15)
 		price.MinY(0)
-	}
-
-	var supply *chart.Chart
-	{
-		supply = chart.New("Circulating Supply / Total Supply", "Circulating Supply", "Total Supply")
-		supply.MaxY(3e07)
-		supply.MinY(0)
+		price.UnitY("DAI")
 	}
 
 	ctx = execute(ctx, []step.Interface{
@@ -179,13 +185,20 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 		st020.Step{ /******************/ Comment: "mutate: <amount> excess reserves in treasury"},
 	})
 
-	// o := sync.Once{}
+	o := sync.Once{}
 
-	for i := 0; i < 1020; i++ {
+	var sho bool
+
+	for i := 0; i < 1000; i++ {
 		{
-			if floorCanIncrease(ctx, floor, growth) {
+			if i != 0 && floorCanIncrease(ctx, floor, growth) {
 				floor = floor * (1 + growth)
 				ceiling = floor * multiple
+
+				growth = growth * 0.95
+				if growth < 0.01 {
+					growth = 0.01
+				}
 
 				ste := []step.Interface{
 					st002.Step{Value: floor /*****/, Comment: fmt.Sprintf("mutate: set %.2f DAI price floor", floor)},
@@ -208,42 +221,64 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 				st011.Step{ /***************/ Comment: /*********/ "mutate: <amount> RSX market cap"},
 				st020.Step{ /***************/ Comment: /*********/ "mutate: <amount> excess reserves in treasury"},
 				st021.Step{Value: dao /****/, Comment: fmt.Sprintf("mutate: add %.2f DAI to DAO", dao)},
-				st022.Step{Value: deb /****/, Comment: fmt.Sprintf("mutate: rem %.2f DAI from protocol debt", deb)},
+				// st022.Step{Value: deb /****/, Comment: fmt.Sprintf("mutate: rem %.2f DAI from protocol debt", deb)},
 			}
 
 			ctx = execute(ctx, ste)
 		}
 
-		// {
-		// 	o.Do(func() {
-		// 		ste := []step.Interface{
-		// 			st015.Step{Value: 1e07, Comment: "mutate: add 10M DAI treasury inflow"},
-		// 			st006.Step{ /*********/ Comment: "mutate: <value> RSX circulating supply"},
-		// 			st007.Step{ /*********/ Comment: "mutate: <value> RSX total supply"},
-		// 			st011.Step{ /*********/ Comment: "mutate: <value> RSX market cap"},
-		// 			st020.Step{ /*********/ Comment: "mutate: <value> excess reserves in treasury"},
-		// 		}
-
-		// 		ctx = execute(ctx, ste)
-		// 	})
-		// }
-
 		{
-			roi = floor / pos
+			o.Do(func() {
+				ste := []step.Interface{
+					st015.Step{Value: 1e07, Comment: "mutate: add 10M DAI treasury inflow"},
+					st006.Step{ /*********/ Comment: "mutate: <value> RSX circulating supply"},
+					st007.Step{ /*********/ Comment: "mutate: <value> RSX total supply"},
+					st011.Step{ /*********/ Comment: "mutate: <value> RSX market cap"},
+					st020.Step{ /*********/ Comment: "mutate: <value> excess reserves in treasury"},
+				}
+
+				ctx = execute(ctx, ste)
+			})
 		}
 
 		{
-			backing.AddX(i)
+			roi = floor / pos
+			if !sho && roi >= 1 {
+				sho = true
+				price.RFVY(2, i)
+			}
+		}
+
+		{
+			backing.AddX(float64(i))
+			excess.AddX(float64(i))
+			price.AddX(float64(i))
+
 			backing.AddY(ctx.Treasury.DAI.Backing, ctx.Treasury.RSX.Supply.MarketCap, ctx.Treasury.DAI.DAO)
-
-			excess.AddX(i)
-			excess.AddY(ctx.Treasury.DAI.Excess, ctx.Protocol.RSX.Debt.Value)
-
-			price.AddX(i)
+			excess.AddY(ctx.Treasury.DAI.Excess)
 			price.AddY(ctx.RSX.Price.Floor, ctx.RSX.Price.Ceiling, roi)
+		}
+	}
 
-			supply.AddX(i)
-			supply.AddY(ctx.Treasury.RSX.Supply.Circulating, ctx.Treasury.RSX.Supply.Total)
+	{
+		c := float64(5)
+		f := float64(1)
+		t := 1e06
+		s := 1000
+
+		bonding.SetCeilingAndFloor(c, f)
+
+		for i := 0; i < s; i++ {
+			p := ((c + 1) / float64(s) * float64(i))
+
+			d := bond.Discount(p, f, c)
+			v := bond.Volume(p, f, c)
+
+			x := /***/ (v) * t / 100
+			y := (100 - d) * p / 100
+
+			bonding.AddX(round.RoundP(x, 0))
+			bonding.AddY(p, y)
 		}
 	}
 
@@ -251,7 +286,7 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 		chs = append(chs, backing.Line())
 		chs = append(chs, excess.Line())
 		chs = append(chs, price.Line())
-		chs = append(chs, supply.Line())
+		chs = append(chs, bonding.Line())
 	}
 
 	return chs, nil
@@ -279,5 +314,5 @@ func floorCanIncrease(ctx context.Context, floor float64, growth float64) bool {
 
 	// As long as the available capital to increase the price floor is smaller
 	// than the increase we want to achieve, we cannot increase the backing.
-	return add >= gro //&& ctx.Protocol.RSX.Debt.Amount == 0 && ctx.Protocol.RSX.Debt.Value == 0
+	return add >= gro
 }
