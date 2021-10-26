@@ -14,9 +14,6 @@ func Discount(p float64, f float64, c float64) float64 {
 		return 0
 	}
 
-	//    4   1           5   1
-	//      3               4
-	// r := (p - f) * 100 / (c - f) / DISCOUNT_PERCENTAGE_MAX
 	r := p * (100 - DISCOUNT_PERCENTAGE_MAX) / 100
 
 	if r <= DISCOUNT_PERCENTAGE_MIN {
@@ -30,6 +27,7 @@ func Discount(p float64, f float64, c float64) float64 {
 	return r
 }
 
+// TODO plot volume to see if it is linear
 func Volume(p float64, f float64, c float64) float64 {
 	if p >= c {
 		return 0
