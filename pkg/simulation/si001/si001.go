@@ -20,13 +20,10 @@ import (
 	"github.com/xh3b4sd/rsx/pkg/step"
 	"github.com/xh3b4sd/rsx/pkg/step/st002"
 	"github.com/xh3b4sd/rsx/pkg/step/st003"
-	"github.com/xh3b4sd/rsx/pkg/step/st004"
-	"github.com/xh3b4sd/rsx/pkg/step/st005"
 	"github.com/xh3b4sd/rsx/pkg/step/st006"
 	"github.com/xh3b4sd/rsx/pkg/step/st007"
 	"github.com/xh3b4sd/rsx/pkg/step/st011"
 	"github.com/xh3b4sd/rsx/pkg/step/st015"
-	"github.com/xh3b4sd/rsx/pkg/step/st018"
 	"github.com/xh3b4sd/rsx/pkg/step/st020"
 	"github.com/xh3b4sd/rsx/pkg/step/st021"
 )
@@ -99,7 +96,7 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 	// debt.
 	// var deb float64
 	// {
-	// 	deb = 0.02
+	// 	deb = 0.10
 	// }
 
 	var floor float64
@@ -140,8 +137,8 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 
 	var backing *chart.Chart
 	{
-		backing = chart.New("DAI Backing / Market Cap", "DAI Backing", "Market Cap", "DAO Holdings")
-		backing.MaxY(6e08)
+		backing = chart.New("DAI Backing / Market Cap", "DAI Backing", "Market Cap")
+		backing.MaxY(5e08)
 		backing.MinY(0)
 		backing.UnitY("DAI")
 	}
@@ -157,8 +154,8 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 
 	var excess *chart.Chart
 	{
-		excess = chart.New("Excess Reserves")
-		excess.MaxY(1e07)
+		excess = chart.New("Excess Reserves / DAO Holdings", "Excess Reserves", "DAO Holdings")
+		excess.MaxY(8e06)
 		excess.MinY(0)
 		excess.UnitY("DAI")
 	}
@@ -174,10 +171,6 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 	ctx = execute(ctx, []step.Interface{
 		st002.Step{Value: floor /*****/, Comment: fmt.Sprintf("mutate: set %.2f DAI price floor", floor)},
 		st003.Step{Value: ceiling /***/, Comment: fmt.Sprintf("mutate: set %.2f DAI price ceiling", ceiling)},
-
-		st004.Step{Value: 2e06 /******/, Comment: "mutate: add 2.0M DAI to treasury"},
-		st018.Step{Value: 2e06 /******/, Comment: "mutate: add 2.0M protocol debt in RSX"},
-		st005.Step{Value: 4e06 /******/, Comment: "mutate: add 4.0M RSX / DAI liquidity to pool"},
 
 		st006.Step{ /******************/ Comment: "mutate: <amount> RSX circulating supply"},
 		st007.Step{ /******************/ Comment: "mutate: <amount> RSX total supply"},
@@ -221,7 +214,6 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 				st011.Step{ /***************/ Comment: /*********/ "mutate: <amount> RSX market cap"},
 				st020.Step{ /***************/ Comment: /*********/ "mutate: <amount> excess reserves in treasury"},
 				st021.Step{Value: dao /****/, Comment: fmt.Sprintf("mutate: add %.2f DAI to DAO", dao)},
-				// st022.Step{Value: deb /****/, Comment: fmt.Sprintf("mutate: rem %.2f DAI from protocol debt", deb)},
 			}
 
 			ctx = execute(ctx, ste)
@@ -254,8 +246,8 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 			excess.AddX(float64(i))
 			price.AddX(float64(i))
 
-			backing.AddY(ctx.Treasury.DAI.Backing, ctx.Treasury.RSX.Supply.MarketCap, ctx.Treasury.DAI.DAO)
-			excess.AddY(ctx.Treasury.DAI.Excess)
+			backing.AddY(ctx.Treasury.DAI.Backing, ctx.Treasury.RSX.Supply.MarketCap)
+			excess.AddY(ctx.Treasury.DAI.Excess, ctx.Treasury.DAI.DAO/2) // divided by 2 for innovation fund
 			price.AddY(ctx.RSX.Price.Floor, ctx.RSX.Price.Ceiling, roi)
 		}
 	}
@@ -263,7 +255,6 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 	{
 		c := float64(5)
 		f := float64(1)
-		t := 1e06
 		s := 1000
 
 		bonding.SetCeilingAndFloor(c, f)
@@ -274,11 +265,8 @@ func generate(ctx context.Context) ([]*charts.Line, error) {
 			d := bond.Discount(p, f, c)
 			v := bond.Volume(p, f, c)
 
-			x := /***/ (v) * t / 100
-			y := (100 - d) * p / 100
-
-			bonding.AddX(round.RoundP(x, 0))
-			bonding.AddY(p, y)
+			bonding.AddX(round.RoundP(v, 0))
+			bonding.AddY(round.RoundP(p, 3), round.RoundP(d, 3))
 		}
 	}
 

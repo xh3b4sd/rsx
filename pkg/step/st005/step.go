@@ -18,7 +18,7 @@ func (s Step) Ind() int {
 	return int(s.Index)
 }
 
-// mutate: add <Value> RSX / DAI liquidity to pool
+// mutate: add <Value> in RSX founder tokens
 func (s Step) Run(ctx context.Context) (context.Context, error) {
 	val := s.Value / 2
 
