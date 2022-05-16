@@ -25,8 +25,8 @@ github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+
 github.com/stretchr/testify v1.6.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/stretchr/testify v1.7.0 h1:nwc3DEeHmmLAfoZucVR881uASk0Mfjw8xYJ99tb5CcY=
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
-github.com/xh3b4sd/logger v0.5.1 h1:y9ZqvkH5nwa8aBIB0jcHUW2KCjYjAUx4VSTydcdG04E=
-github.com/xh3b4sd/logger v0.5.1/go.mod h1:PTSV8DSuxflhKBKaIxc9QK0IbhHUhQAKWUwn+adQoLA=
+github.com/xh3b4sd/logger v0.5.3 h1:dQaiN7pGxgm99m6mF7gUx+/g1TMlN/rNte6445EHcww=
+github.com/xh3b4sd/logger v0.5.3/go.mod h1:PTSV8DSuxflhKBKaIxc9QK0IbhHUhQAKWUwn+adQoLA=
 github.com/xh3b4sd/tracer v0.5.0 h1:KglVpem7dGWfNdjEXbTUmIt/t2UOTKa3vWpPATqpQvE=
 github.com/xh3b4sd/tracer v0.5.0/go.mod h1:nllAQlwq3YjVc61aNRE8svIEwUngBi9+iKKW9siC5yk=
 golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543/go.mod h1:I/5z698sn9Ka8TeJc9MKroUUfqBBauWjQqLJ2OPfmY0=
