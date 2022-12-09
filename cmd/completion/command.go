@@ -46,7 +46,7 @@ func New(config Config) (*cobra.Command, error) {
 			Long:                  long,
 			DisableFlagsInUseLine: true,
 			ValidArgs:             []string{"bash", "fish", "powershell", "zsh"},
-			Args:                  cobra.ExactValidArgs(1),
+			Args:                  cobra.MatchAll(cobra.ExactArgs(1), cobra.OnlyValidArgs),
 			RunE:                  r.Run,
 		}
 	}
