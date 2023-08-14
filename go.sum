@@ -28,8 +28,8 @@ github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/
 github.com/xh3b4sd/logger v0.6.0 h1:RUv06v0p2yd1PO/amoDbnvd2BgCtEZZ8NYwb3gjn7eE=
 github.com/xh3b4sd/logger v0.6.0/go.mod h1:HAHJagj3n2JGsk+EubHAc0ZkL7uFn1Jsn0MG3zrqeu4=
 github.com/xh3b4sd/tracer v0.5.1/go.mod h1:sYg6KI0svCEb2an8Hf0cYR0rOY94bIrN27TRsJi4+x4=
-github.com/xh3b4sd/tracer v0.6.0 h1:WMrNsHcWUaCAqMWXogD7IRKC8F6A9Ar4pDF9WcdZsX0=
-github.com/xh3b4sd/tracer v0.6.0/go.mod h1:U5gTjJXdszOlcBmr94v6zDrV8sY6d53thFUkPNZQ4Xk=
+github.com/xh3b4sd/tracer v0.9.0 h1:R3f1b7YilhX6HCuSZJkoNPTpsreNb1SVNYOwAy+476U=
+github.com/xh3b4sd/tracer v0.9.0/go.mod h1:8nRbNXXhSSDmPfyoRRYgwQt/RpzAUH+zNsagP9InH8M=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
